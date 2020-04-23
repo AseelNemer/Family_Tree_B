@@ -55,6 +55,7 @@ class Tree {
     string& relation1(string,string&,node *); //function helps relation func
     string find(string); // tells us whats the name of the bpersons who has this relation with the root
     
+    string findName(node * T,string name, int level);
     void remove(string node); // remove this person and all the others under him
 
     };

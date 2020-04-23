@@ -9,6 +9,7 @@
 
 
 
+
 using namespace std;
 using namespace family;
 
@@ -82,39 +83,82 @@ void Tree::find_node(node *root, node** temp ,const string child) {
 
  //tells us whats the name of the persons who has this relation with the root
 
- string Tree::find(string a)
+ string Tree::find(string name)
  {
-    int l =a.length(),i=0;
-    node *root=*this->root;
-    if(a.compare("mother"==0)||a.compare("Mother"))
+    int l =name.length(),i=0;
+    
+    if(name.compare("mother")==0||name.compare("Mother")==0)
     {
-        return root->mother->data;
+        return this->root->mother->data;
     }
-    if(a.compare("father"==0)||a.compare("Father"))
+    if(name.compare("father")==0||name.compare("Father")==0)
     {
-        return root->father->data;
+        return this->root->father->data;
     }
-    if(a.compare("grandmother"==0)||a.compare("Grandmother"))
+    if(name.compare("grandmother")==0||name.compare("Grandmother")==0)
     {
-        return root->mother->mother->data;
+        return this->root->mother->mother->data;
     }
-    if(a.compare("grandfather"==0)||a.compare("Grandfather"))
+    if(name.compare("grandfather")==0||name.compare("Grandfather")==0)
     {
-        return root->father->father->data;
-    }
-     while((relat.length() > 6) && (relat.substr(0,6).compare("great-") == 0)){
-        relat=relat.substr(6);
-        depth++;
+        return this->root->father->father->data;
     }
 
-
-
-
+     int level = 3;
+        string s = name;
+        while ((s != "grandmother" ) && (s != "grandfather"))
+        {
+            s = s.substr(6,(s.length()-6));
+            level++;
+        }
+        string findname=findName(this->root,s, level);
+        if (findname == "")
+        {
+            throw runtime_error("No such a " + name);
+        }
+        return findname;
+        
 
  }
 
+string Tree :: findName(node * T,string name, int level)
+{
+    
+    string findname;
+     if (T == NULL)
+    {
+        return "";
+    }
+    
+   if(T->father == NULL && T->mother == NULL)
+   {
+       return "";
+   }
 
- string Tree::relation(string name)
+   if(level == 2 )
+   {
+       if (name == "grandmother")
+       {
+           findname = T->mother->data;
+       }
+       else
+       {
+           findname = T->father->data;
+       }       
+       return findname;
+   }
+    findName(T->father,name, level-1);
+
+    if(level > 0)
+    {
+        return findname;
+    }
+
+    findName(T->mother,name, level-1);
+
+    return findname;
+}
+string Tree::relation(string name)
  {
     string relate = " ";
    return relation1(name, relate, this->root);
@@ -175,38 +219,29 @@ void Tree::find_node(node *root, node** temp ,const string child) {
 
     while(ptr!=NULL)
     {
-        cout<< ptr->data <<endl;
-        display(ptr->left);
-        ptr = ptr->right;
+        
+        
+
     }
  }
 
- void Tree::remove(string rname){
-    ptr = node(rname);
-    node* temp =ptr;
-
-    if(ptr==NULL)
-        return;
-
-    while(ptr!=NULL)
+void Tree::remove(string name)
+{
+    node *temp=find(this *root,temp,name)
+    if(temp!=NULL)
     {
-        remove(ptr->left);
-        temp = ptr;
-        ptr = ptr->right;
-        delete temp;
+        deleteSubTree(temp);
     }
+    else 
+        cout << "the tree is empty" << endl;
+}
+void Tree::deleteSubTree(node *root)
+{
 
-    start = NULL;
-  }
- }
-
-
- void Tree::remove(node* subRoot){
-  if(subRoot==nullptr){
-    return;
-  }
-  deleteNode(subRoot->father);
-  deleteNode(subRoot->mother);
-  delete subRoot;
- }
+    if (root != NULL)
+    {
+        deleteSubTree(root->getFather());
+        deleteSubTree(root->getMother());
+        delete root;
+    }
 }
