@@ -40,8 +40,7 @@ class Tree {
 
     Tree(string name)
     {
-        node *n = new node(name);
-        this->root = n;
+        this->root = new node(name);
         this->size=0;
     };
     
@@ -56,7 +55,7 @@ class Tree {
     
     void  display(node *n);
 
-    string findName(node * T,string name, int level);
+    void findName(int level,node * root,node **temp,int tag );
     void remove(string node); // remove this person and all the others under him
     void deleteSubTree(node *root);
 

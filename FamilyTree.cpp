@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <exception>
 #include <bits/stdc++.h>
+bool static check1 = false ;
 
 
 
@@ -16,28 +17,27 @@ using namespace family;
 
  Tree& Tree::addFather( string child, string father) 
  {
-     
+     cout << "add father" << endl;
     if(this->root==NULL)
     {
-        out_of_range{"The Family tree is Empty!"};
+       throw out_of_range{"The Family tree is Empty!"};
         return  *this;
     }
-    node *temp;
+    node *temp=nullptr;
     find_node(this->root,&temp ,child);
     if(temp==NULL)
     {
-        out_of_range{"cannot find this child!"};
+       throw out_of_range{"cannot find this child!"};
         return *this;
     }
     if(temp->father!=NULL)
     {
-        out_of_range{"this child has a father "};
+      throw  out_of_range{"this child has a father "};
         return *this;
-
     }
     else
     {
-        temp->father=new node("father");
+        temp->father=new node(father);
         this->size++;
         temp->father->hight=temp->hight+1;
         temp->father->tag=0;
@@ -50,27 +50,28 @@ using namespace family;
  
 Tree& Tree::addMother( string child, string mother)
  {
+     cout << "add mother" << endl;
     if(this->root==NULL)
     {
-        out_of_range{"The Family tree is Empty!"};
+       throw out_of_range{"The Family tree is Empty!"};
         return *this;
     }
-    node *temp;
+    node *temp=nullptr;
     find_node(this->root,&temp ,child);
     if(temp==NULL)
     {
-        out_of_range{"cannot find this child!"};
+       throw out_of_range{"cannot find this child!"};
             return *this;
     }
     if(temp->mother!=NULL)
     {
-        out_of_range{"this child has a mother "};
+       throw out_of_range{"this child has a mother "};
         return *this;
 
     }
     else
     {
-        temp->mother=new node("mother");
+        temp->mother=new node(mother);
         this->size++;
         temp->mother->hight=temp->hight+1;
         temp->mother->tag=1;
@@ -80,7 +81,7 @@ Tree& Tree::addMother( string child, string mother)
  }
 void Tree::find_node(node *root, node** temp ,const string child) {
 
-    if(root == NULL) *temp=NULL;
+    if(root == NULL) return ;
     if(root->data == child)
     {
       *temp = root  ;
@@ -115,59 +116,50 @@ void Tree::find_node(node *root, node** temp ,const string child) {
         return this->root->father->father->data;
     }
 
-     int level = 3;
+     int level=0;
         string s = name;
         while ((s != "grandmother" ) && (s != "grandfather"))
         {
             s = s.substr(6,(s.length()-6));
             level++;
         }
-        string findname=findName(this->root,s, level);
-        if (findname == "")
-        {
-            throw runtime_error("No such a " + name);
-        }
-        return findname;
+        level=level+2;
         
-
+        int tag=0;
+        if(s.compare("grandfather")==0)
+        {
+            tag=0;
+           
+        }
+        else {
+            tag=1;
+                      
+        }
+        
+       node *temp=nullptr;
+       findName(level,this->root,&temp,tag);
+        if(temp==nullptr)
+            throw runtime_error("cannot find the reletion");
+        
+        return temp->data;
+        
  }
 
-string Tree :: findName(node * T,string name, int level)
+void Tree :: findName(int level,node * root,node **temp ,int tag)
 {
-    
-    string findname;
-     if (T == NULL)
+    if(root == NULL) return;
+    if( root->hight == level && root->tag==tag )
     {
-        return "";
+        *temp = root;
+        check1 = true ;
+
+    }
+    if(!check1)
+    {
+        Tree::findName(level , root->father , temp ,tag);
+        Tree::findName(level ,  root->mother , temp,tag );
     }
     
-   if(T->father == NULL && T->mother == NULL)
-   {
-       return "";
-   }
-
-   if(level == 2 )
-   {
-       if (name == "grandmother")
-       {
-           findname = T->mother->data;
-       }
-       else
-       {
-           findname = T->father->data;
-       }       
-       return findname;
-   }
-    findName(T->father,name, level-1);
-
-    if(level > 0)
-    {
-        return findname;
-    }
-
-    findName(T->mother,name, level-1);
-
-    return findname;
 }
 string Tree::relation(string name)
  {

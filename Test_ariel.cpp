@@ -107,7 +107,7 @@ TEST_CASE("Yosef Tree case") {
 	CHECK_THROWS(T.addMother("Rachel", "Ruti"));      // add to non-existent person
 }
 
-/*
+
 TEST_CASE("Strange string Tree case") {  
 	// Add test case
 	family::Tree T ("OliVeR$");
@@ -224,4 +224,3 @@ TEST_CASE("Empty string Tree case") {
 	CHECK_THROWS(T.addFather("   ", "        "););
 	CHECK_THROWS(T.addMother("   ", "Rut   i "););
 }
-*/

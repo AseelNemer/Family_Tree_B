@@ -48,8 +48,8 @@ TEST_CASE ("ADD FATHER") {
 
 
 TEST_CASE ("ADD MOTHER") {
-    Tree test("uriel");
-    test.addMother("uriel", "shimon");
+    Tree test("ariel");
+    test.addMother("ariel", "shimon");
     Tree test2("Yosef");
     test2.addMother("Yosef", "Yaakov");
     test2.addMother("Yaakov", "shlof");
