@@ -52,11 +52,13 @@ class Tree {
     void display();  // displays the tree in a human-friendly format.
     
     string relation(string);  // prints the relationship between this name and the root
-    string& relation1(string,string&,node *); //function helps relation func
     string find(string); // tells us whats the name of the bpersons who has this relation with the root
     
+    void  display(node *n);
+
     string findName(node * T,string name, int level);
     void remove(string node); // remove this person and all the others under him
+    void deleteSubTree(node *root);
 
     };
 }

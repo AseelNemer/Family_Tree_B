@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <exception>
 #include <bits/stdc++.h>
-#pragma once
 
 
 
@@ -29,6 +28,12 @@ using namespace family;
     {
         out_of_range{"cannot find this child!"};
         return *this;
+    }
+    if(temp->father!=NULL)
+    {
+        out_of_range{"this child has a father "};
+        return *this;
+
     }
     else
     {
@@ -56,6 +61,12 @@ Tree& Tree::addMother( string child, string mother)
     {
         out_of_range{"cannot find this child!"};
             return *this;
+    }
+    if(temp->mother!=NULL)
+    {
+        out_of_range{"this child has a mother "};
+        return *this;
+
     }
     else
     {
@@ -160,9 +171,7 @@ string Tree :: findName(node * T,string name, int level)
 }
 string Tree::relation(string name)
  {
-    string relate = " ";
-   return relation1(name, relate, this->root);
-    //cout<<relate<<endl;
+    
     node *temp=nullptr;
     find_node(this->root, &temp , name);
     if(temp==NULL)
@@ -192,9 +201,10 @@ string Tree::relation(string name)
     {
         return "grandmother";
     }
+    string ans="";
     if(temp->hight>2)
     {
-        string ans="";
+        
         int h=temp->hight;
         while(h!=2)
         {
@@ -207,27 +217,37 @@ string Tree::relation(string name)
             ans+="grandfather";
         
     }
-    
+    return ans;
  }
  
  void Tree::display()
  {
-    node* ptr = root;
+    node *ptr = root;
 
     if(ptr==NULL)
         return;
 
-    while(ptr!=NULL)
-    {
-        
-        
-
-    }
+    display(ptr);
  }
+
+void Tree :: display(node *n)
+{
+     if(n == NULL) return ;
+    
+    else
+    {
+        display(n->father);
+        cout << n->data << endl;
+        display(n->mother);
+    }
+}
+ 
+
 
 void Tree::remove(string name)
 {
-    node *temp=find(this *root,temp,name)
+    node *temp;
+    find_node(this->root,&temp,name);
     if(temp!=NULL)
     {
         deleteSubTree(temp);
@@ -240,8 +260,8 @@ void Tree::deleteSubTree(node *root)
 
     if (root != NULL)
     {
-        deleteSubTree(root->getFather());
-        deleteSubTree(root->getMother());
+        deleteSubTree(root->father);
+        deleteSubTree(root->mother);
         delete root;
     }
 }
