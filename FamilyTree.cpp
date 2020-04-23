@@ -120,6 +120,11 @@ void Tree::find_node(node *root, node** temp ,const string child) {
         string s = name;
         while ((s != "grandmother" ) && (s != "grandfather"))
         {
+            if(s.substr(0,6)!=("great-"))
+                {
+                 throw runtime_error("cannot find the reletion");
+                 
+                }
             s = s.substr(6,(s.length()-6));
             level++;
         }
@@ -138,9 +143,10 @@ void Tree::find_node(node *root, node** temp ,const string child) {
         
        node *temp=nullptr;
        findName(level,this->root,&temp,tag);
-        if(temp==nullptr)
+       check1=false;
+        if(temp==NULL)
             throw runtime_error("cannot find the reletion");
-        
+       
         return temp->data;
         
  }
@@ -242,18 +248,16 @@ void Tree::remove(string name)
     find_node(this->root,&temp,name);
     if(temp!=NULL)
     {
-        deleteSubTree(temp);
+        deleteSubTree(&temp ->father);
+        deleteSubTree(&temp ->mother);
     }
     else 
-        cout << "the tree is empty" << endl;
+        throw runtime_error("this name is not in the tree");
 }
-void Tree::deleteSubTree(node *root)
-{
-
-    if (root != NULL)
-    {
-        deleteSubTree(root->father);
-        deleteSubTree(root->mother);
-        delete root;
-    }
+void deleteSubTree(Node** node){
+    if (*node == NULL) return;
+    deleteSubTree(&(*(node))->mother);
+    deleteSubTree(&(*(node))->father);
+    *node = nullptr;
+    delete *node;
 }
