@@ -56,8 +56,13 @@ class Tree {
     void  display(node *n);
 
     void findName(int level,node * root,node **temp,int tag );
-    void remove(string node); // remove this person and all the others under him
-    void deleteSubTree(node **node);
+    void remove(string name); // remove this person and all the others under him
+    void deleteSubTree(node *node);
+   // void deletenode(node* node);  
+
+
+
+
 
     };
 }
