@@ -26,7 +26,7 @@ public:
     this->hight=0;
     this->tag=0;
  };
-
+  
 };
 
 
@@ -43,6 +43,10 @@ class Tree {
         this->root = new node(name);
         this->size=0;
     };
+    ~ Tree()
+    {
+        delete(root);   
+    }
     
     Tree& addFather(string , string); // Tells the tree that the father of name is fname.
     Tree& addMother(string, string);// Tells the tree that the mother of name is mname.
@@ -55,10 +59,14 @@ class Tree {
     
     void  display(node *n);
 
-    void findName(int level,node * root,node **temp,int tag );
+    node* findName(int level,node *root,node **temp,int tag );
     void remove(string name); // remove this person and all the others under him
     void deleteSubTree(node *node);
    // void deletenode(node* node);  
+
+
+//void _deletenode(node* node);
+//void deletenode(node** temp);
 
 
 

@@ -11,7 +11,7 @@ bool static check1 = false ;
 
 using namespace std;
 using namespace family;
-node static *ans=nullptr;
+node static *ans=NULL;
  
 
  Tree& Tree::addFather( string child, string father) 
@@ -33,9 +33,10 @@ node static *ans=nullptr;
        throw out_of_range{"cannot find this child!"};
         return *this;
     }
-    if(temp->father!=NULL)
+    if(temp->father!=NULL && temp->father->tag !=-1)
     {
-      throw  out_of_range{"this child has a father "};
+        cout << temp->father->tag << "his tag "<< endl;
+        throw  out_of_range{"this child has a father "};
         return *this;
     }
     else
@@ -71,7 +72,7 @@ Tree& Tree::addMother( string child, string mother)
        throw out_of_range{"cannot find this child!"};
             return *this;
     }
-    if(temp->mother!=NULL)
+    if(temp->mother!=NULL && temp->mother->tag !=-1)
     {
        throw out_of_range{"this child has a mother "};
         return *this;
@@ -90,7 +91,7 @@ Tree& Tree::addMother( string child, string mother)
 void Tree::find_node(node *root, node** temp ,const string child) {
 
     if(root == NULL) return  ;
-    if(root->data == child)
+    if(root->data == child )
     {
       *temp = root  ;
     }
@@ -141,27 +142,21 @@ void Tree::find_node(node *root, node** temp ,const string child) {
             level++;
         }
         level=level+2;
-        
         int tag=0;
         if(s.compare("grandfather")==0)
-        {
             tag=0;
-           
-        }
-        else {
-            tag=1;
-                      
-        }
+        else 
+            tag=1;         
        node *temp;
-       findName(level,this->root,&temp,tag);
+       temp=findName(level,this->root,&temp,tag);
        if(check1==false)
        {
            cout<< check1<< endl;
-              temp=nullptr;
+              temp=NULL;
               } 
-     cout<< check1<< endl;
+        
        check1=false;
-        if(temp==nullptr)
+        if(temp==NULL)
             throw runtime_error("cannot find the reletion!");
         else
             cout<< temp->data<< "dddd"<< endl;
@@ -169,22 +164,24 @@ void Tree::find_node(node *root, node** temp ,const string child) {
         
  }
 
-void  Tree :: findName(int level,node * root,node **temp ,int tag)
+node*  Tree :: findName(int level,node *root,node **temp ,int tag)
 {   
     
     if(root == NULL) {
-        return ;
+        return  NULL;
     }
-    if( root->hight == level && root->tag==tag )
+    else if(root->hight == level && root->tag==tag)
     {
-        *temp = root;
+        ans=root;
+        cout << root->data<< " name" << endl;
         check1=true;
     }
-    if(check1==false)
-    {
+    
+    if(!check1){
         Tree::findName(level , root->father ,temp ,tag);
         Tree::findName(level ,  root->mother ,temp,tag );
-    }  
+    }
+    return ans;
     
 }
 string Tree::relation(string name)
@@ -277,24 +274,16 @@ void Tree::remove(string name)
         throw runtime_error("this name is not in the tree");
 
 
-    deleteSubTree(temp->mother);
-
-    deleteSubTree(temp->father);
-
-    //deleteSubTree(temp);
-  
-     delete temp; 
-   
-        
-
+   deleteSubTree(temp);
 }
 void Tree::deleteSubTree(node *node){
-    if (node == nullptr) 
-        return;
+    if(node==NULL) return;
 
     deleteSubTree(node->mother);
-    
     deleteSubTree(node->father);
+     
+    cout<< node->data << "delete" << endl;
+    node->tag=-1;
+    delete (node) ;
     
-    delete node;
 }
