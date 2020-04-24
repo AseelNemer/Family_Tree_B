@@ -26,6 +26,7 @@ public:
     this->hight=0;
     this->tag=0;
  };
+   
   
 };
 
@@ -45,7 +46,11 @@ class Tree {
     };
     ~ Tree()
     {
-        delete(root);   
+        root->father=NULL;
+        root->mother=NULL;
+        root=NULL;  
+        
+        delete(root); 
     }
     
     Tree& addFather(string , string); // Tells the tree that the father of name is fname.

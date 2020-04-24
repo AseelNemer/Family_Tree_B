@@ -12,7 +12,8 @@ bool static check1 = false ;
 using namespace std;
 using namespace family;
 node static *ans=NULL;
- 
+
+
 
  Tree& Tree::addFather( string child, string father) 
  {
@@ -33,9 +34,8 @@ node static *ans=NULL;
        throw out_of_range{"cannot find this child!"};
         return *this;
     }
-    if(temp->father!=NULL && temp->father->tag !=-1)
+    if(temp->father!=NULL)
     {
-        cout << temp->father->tag << "his tag "<< endl;
         throw  out_of_range{"this child has a father "};
         return *this;
     }
@@ -151,15 +151,13 @@ void Tree::find_node(node *root, node** temp ,const string child) {
        temp=findName(level,this->root,&temp,tag);
        if(check1==false)
        {
-           cout<< check1<< endl;
               temp=NULL;
-              } 
+        } 
         
        check1=false;
         if(temp==NULL)
             throw runtime_error("cannot find the reletion!");
-        else
-            cout<< temp->data<< "dddd"<< endl;
+        
         return temp->data;
         
  }
@@ -173,7 +171,6 @@ node*  Tree :: findName(int level,node *root,node **temp ,int tag)
     else if(root->hight == level && root->tag==tag)
     {
         ans=root;
-        cout << root->data<< " name" << endl;
         check1=true;
     }
     
@@ -282,8 +279,8 @@ void Tree::deleteSubTree(node *node){
     deleteSubTree(node->mother);
     deleteSubTree(node->father);
      
-    cout<< node->data << "delete" << endl;
     node->tag=-1;
     delete (node) ;
+    node =NULL;
     
 }
