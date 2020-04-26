@@ -77,7 +77,7 @@ TEST_CASE("Yosef Tree case") {
 	CHECK_THROWS(T.find("great grandmother"));
 
 	// Remove test case
-	//CHECK_THROWS(T.remove("Yosef"));  // removing the root is an error
+	CHECK_THROWS(T.remove("Yosef"));  // removing the root is an error
 	CHECK_THROWS(T.remove(" "));      // removing a non-existent person
 	CHECK_THROWS(T.remove("xyz"));
 	CHECK_THROWS(T.remove("Ariel"));
