@@ -29,12 +29,12 @@ node static *ans=NULL;
             throw out_of_range{"You entered incorrect names!"};*/
 
     find_node(this->root,&temp ,child);
-    if(temp==NULL)
+    if(temp==nullptr)
     {
        throw out_of_range{"cannot find this child!"};
         return *this;
     }
-    if(temp->father!=NULL)
+    if(temp->father!=nullptr)
     {
         throw  out_of_range{"this child has a father "};
         return *this;
@@ -68,7 +68,7 @@ Tree& Tree::addMother( string child, string mother)
 
     node *temp=nullptr;
     find_node(this->root,&temp ,child);
-    if(temp==NULL)
+    if(temp==nullptr)
     {
        throw out_of_range{"cannot find this child!"};
             return *this;
@@ -92,7 +92,7 @@ Tree& Tree::addMother( string child, string mother)
  }
 void Tree::find_node(node *root, node** temp ,const string child) {
 
-    if(root == NULL) return  ;
+    if(root == nullptr) return  ;
     if(root->data == child )
     {
       *temp = root  ;
@@ -108,38 +108,36 @@ void Tree::find_node(node *root, node** temp ,const string child) {
 
  string Tree::find(string name)
  {
-          cout<< name<<endl;
-
-    size_t found=name.find(" ");
+         
+    /**size_t found=name.find(" ");
     if(found != string::npos)
             throw out_of_range{"You entered incorrect names!"};
-
+*/
     int l =name.length(),i=0;
-    if(this->root==NULL)
+    if(this->root==nullptr)
         throw out_of_range{" the tree is empty"};
 
     if(name.compare("me")==0)
         return this->root->data;
     
-    if((name.compare("mother")==0||name.compare("Mother")==0)&&this->root->mother!=NULL)
+    if((name.compare("mother")==0||name.compare("Mother")==0)&&this->root->mother!=nullptr)
     {
         return this->root->mother->data;
     }
 
-    if(name.compare("mother")==0&&this->root->mother==NULL)
+    if(name.compare("mother")==0&&this->root->mother==nullptr)
             throw runtime_error("cannot find the reletion");
 
-    if((name.compare("father")==0||name.compare("Father")==0 )&&this->root->father!=NULL)
+    if((name.compare("father")==0||name.compare("Father")==0 )&&this->root->father!=nullptr)
     {
         return this->root->father->data;
     }
 
-    if(name.compare("father")==0&&this->root->father==NULL)
+    if(name.compare("father")==0&&this->root->father==nullptr)
             throw runtime_error("cannot find the reletion");
 
     if((name.compare("grandmother")==0||name.compare("Grandmother")==0 )&& this->root->mother->mother!=nullptr)
     {
-        cout<< this->root->mother->mother->data<<endl;
         return this->root->mother->mother->data;
     }
     if((name.compare("grandmother")==0||name.compare("Grandmother")==0 )&& this->root->father->mother!=nullptr)
@@ -148,14 +146,14 @@ void Tree::find_node(node *root, node** temp ,const string child) {
     if(name.compare("grandmother")==0&&this->root->mother->mother==NULL&&this->root->father->mother==nullptr)
             throw runtime_error("cannot find the reletion");
 
-    if((name.compare("grandfather")==0||name.compare("Grandfather")==0)&&this->root->father->father!=NULL)
+    if((name.compare("grandfather")==0||name.compare("Grandfather")==0)&&this->root->father->father!=nullptr)
     {
         return this->root->father->father->data;
     }
-    if((name.compare("grandfather")==0||name.compare("Grandfather")==0)&&this->root->mother->father!=NULL)
+    if((name.compare("grandfather")==0||name.compare("Grandfather")==0)&&this->root->mother->father!=nullptr)
         return this->root->mother->father->data;
 
-    if(name.compare("grandfather")==0&&this->root->mother->father==NULL && this->root->father->father==NULL)
+    if(name.compare("grandfather")==0&&this->root->mother->father==nullptr && this->root->father->father==nullptr)
             throw runtime_error("cannot find the reletion");
 
     int level=0;
@@ -186,10 +184,9 @@ void Tree::find_node(node *root, node** temp ,const string child) {
     } 
         
     check1=false;
-    if(temp==NULL)
+    if(temp==nullptr)
         throw runtime_error("cannot find the reletion!");
-     cout<< temp->data;
-     cout<< name;
+     
     return temp->data;
         
  }
