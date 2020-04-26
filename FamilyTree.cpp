@@ -50,7 +50,6 @@ node static *ans=NULL;
 
 Tree& Tree::addMother( string child, string mother)
  {
-     cout<< mother <<" mother"<<endl;
     if(this->root==NULL)
     {
        throw out_of_range{"The Family tree is Empty!"};
@@ -65,7 +64,6 @@ Tree& Tree::addMother( string child, string mother)
        throw out_of_range{"cannot find this child!"};
             return *this;
     }
-    cout << temp->data << " temp mother" <<endl;
     if(temp->mother!=nullptr)
     {
        throw out_of_range{"this child has a mother "};
@@ -102,7 +100,6 @@ void Tree::find_node(node *root, node** temp ,const string child) {
 
  string Tree::find(string name)
  {
-     cout << "find" << name<<endl;
     if(this->root==nullptr) throw out_of_range{" the tree is empty"};
 
     if(name.compare("me")==0)  return this->root->data;
@@ -218,11 +215,11 @@ void  Tree :: findName(int level,node *root,node **temp ,int tag)
 
 string Tree::relation(string name)
  {
-     cout << name << "f"<< endl;
     node *temp=nullptr;
     find_node(this->root, &temp , name);
+    
     if(temp==NULL)  return "unrelated";
-    cout<< temp->data<< "name "<< temp->hight << endl;
+
     string tempname=temp->data;
 
     if(tempname.compare(this->root->data)==0 && temp->hight==0)
@@ -298,7 +295,6 @@ void Tree :: display(node *n)
 
 void Tree::remove(string name)
 {
-    cout << "remove " << name << endl;
     
     if(this->root->data==name)
                 throw runtime_error("cannot remove the root !");
