@@ -47,11 +47,7 @@ class Tree {
     int size;
 
     Tree(string name)
-    {/**
-        size_t found=name.find(" ");
-    if(found != string::npos)
-            throw out_of_range{"You entered incorrect names!"};
-*/
+    {
         this->root = new node(name);
         this->size=0;
         this->root->son=root;
@@ -65,25 +61,17 @@ class Tree {
     Tree& addFather(string , string); // Tells the tree that the father of name is fname.
     Tree& addMother(string, string);// Tells the tree that the mother of name is mname.
     
-    void find_node(node *root, node** temp ,const string child);
+    void find_node(node *root, node** temp ,const string child);//find the node with this name.
     void display();  // displays the tree in a human-friendly format.
     
     string relation(string);  // prints the relationship between this name and the root
     string find(string); // tells us whats the name of the bpersons who has this relation with the root
     
-    void  display(node *n);
+    void  display(node *n);//print the tree.
 
-    void findName(int level,node *root,node **temp,int tag );
+    void findName(int level,node *root,node **temp,int tag ); //find the name in this level.
     void remove(string name); // remove this person and all the others under him
-    void deleteSubTree(node *node);
-   // void deletenode(node* node);  
-
-
-//void _deletenode(node* node);
-//void deletenode(node** temp);
-
-
-
+    void deleteSubTree(node *node);// delete the subtree from root node .
 
 
     };

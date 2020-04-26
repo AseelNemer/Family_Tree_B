@@ -53,8 +53,8 @@ TEST_CASE("Test 1 find") {
     CHECK(T.find("father") == string("Arel"));
     CHECK((T.find("grandfather") == string("Yosef") || T.find("grandfather") == string("Yonatan")));
     CHECK((T.find("grandmother") == string("Simha") || T.find("grandmother") == string("Dikla")));
-    //CHECK_THROWS(T.find("uncle")); //there is no option of "uncle" on this tree
-    //CHECK_THROWS(T.find("sister"));
+    CHECK_THROWS(T.find("uncle")); //there is no option of "uncle" on this tree
+    CHECK_THROWS(T.find("sister"));
     CHECK_THROWS(T.find("great-grandfather")); //there is no great-grandfather here
     CHECK_THROWS(T.find("great-grandmother"));
     
@@ -83,7 +83,7 @@ TEST_CASE("Test 1 remove") {
      .addMother("Yoni", "Vered").addFather("Yoni", "Shlomi")
      .addFather("Rami", "David");
 
-    //CHECK_THROWS(T.remove("Maya")); //try to remove the root --> exception
+    CHECK_THROWS(T.remove("Maya")); //try to remove the root --> exception
 
     CHECK((T.find("grandfather") == string("David") || T.find("grandfather") == string("Yoni")));
 
