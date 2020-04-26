@@ -50,7 +50,7 @@ node static *ans=NULL;
 
 Tree& Tree::addMother( string child, string mother)
  {
-     
+     cout<< mother <<" mother"<<endl;
     if(this->root==NULL)
     {
        throw out_of_range{"The Family tree is Empty!"};
@@ -59,12 +59,13 @@ Tree& Tree::addMother( string child, string mother)
 
     node *temp=nullptr;
     find_node(this->root,&temp ,child);
-
+    
     if(temp==nullptr)
     {
        throw out_of_range{"cannot find this child!"};
             return *this;
     }
+    cout << temp->data << " temp mother" <<endl;
     if(temp->mother!=nullptr)
     {
        throw out_of_range{"this child has a mother "};
@@ -101,6 +102,7 @@ void Tree::find_node(node *root, node** temp ,const string child) {
 
  string Tree::find(string name)
  {
+     cout << "find" << name<<endl;
     if(this->root==nullptr) throw out_of_range{" the tree is empty"};
 
     if(name.compare("me")==0)  return this->root->data;
@@ -118,24 +120,40 @@ void Tree::find_node(node *root, node** temp ,const string child) {
     if(name.compare("father")==0&&this->root->father==nullptr)
             throw runtime_error("cannot find the reletion");
 
-    if((name.compare("grandmother")==0||name.compare("Grandmother")==0 )&& this->root->mother->mother!=nullptr)
-        return this->root->mother->mother->data;
+    if(name.compare("grandmother")==0 && this->root->mother!=nullptr)
+       {
+            if(this->root->mother->mother!=nullptr)
+                return this->root->mother->mother->data;
+       }
+      if(name.compare("grandmother")==0 && this->root->father!=nullptr)
+       {
+            if(this->root->father->mother!=nullptr)
+                return this->root->father->mother->data;
+       } 
+
+    if(name.compare("grandmother")==0)
+       {    
+           throw runtime_error("cannot find the reletion");
+       }
+
+    if(name.compare("grandfather")==0 && this->root->mother!=nullptr)
+       {
+            if(this->root->mother->father!=nullptr)
+                return this->root->mother->father->data;
+       }
+      if(name.compare("grandfather")==0 && this->root->father!=nullptr)
+       {
+            if(this->root->father->father!=nullptr)
+                return this->root->father->father->data;
+       } 
+    if(name.compare("grandfather")==0)
+       {    
+           throw runtime_error("cannot find the reletion");
+       }
+
+
     
-    if((name.compare("grandmother")==0||name.compare("Grandmother")==0 )&& this->root->father->mother!=nullptr)
-            return this->root->father->mother->data;
-
-    if(name.compare("grandmother")==0&&this->root->mother->mother==NULL&&this->root->father->mother==nullptr)
-            throw runtime_error("cannot find the reletion");
-
-    if((name.compare("grandfather")==0||name.compare("Grandfather")==0)&&this->root->father->father!=nullptr)
-        return this->root->father->father->data;
-    
-    if((name.compare("grandfather")==0||name.compare("Grandfather")==0)&&this->root->mother->father!=nullptr)
-        return this->root->mother->father->data;
-
-    if(name.compare("grandfather")==0&&this->root->mother->father==nullptr && this->root->father->father==nullptr)
-            throw runtime_error("cannot find the reletion");
-
+         
     size_t found=name.find("grandmother") ,found1=name.find("grandfather");
     if(found != string::npos&&found1 != string::npos)
             throw out_of_range{"You entered incorrect names!"};
@@ -200,27 +218,36 @@ void  Tree :: findName(int level,node *root,node **temp ,int tag)
 
 string Tree::relation(string name)
  {
+     cout << name << "f"<< endl;
     node *temp=nullptr;
     find_node(this->root, &temp , name);
     if(temp==NULL)  return "unrelated";
-    
+    cout<< temp->data<< "name "<< temp->hight << endl;
     string tempname=temp->data;
 
     if(tempname.compare(this->root->data)==0 && temp->hight==0)
         return "me";
 
-    if(temp->hight==1 && tempname.compare(this->root->mother->data)==0)
+    else if(this->root->mother!=nullptr&&temp->hight==1 && tempname.compare(this->root->mother->data)==0)
         return "mother";
     
-    if(temp->hight==1 && tempname.compare(this->root->father->data)==0)
+    else if(this->root->father!=nullptr&&temp->hight==1 && tempname.compare(this->root->father->data)==0)
         return "father";
     
-     if(temp->hight==2 && (tempname.compare(this->root->father->father->data)==0 ||tempname.compare(this->root->mother->father->data)==0))
+    else if(this->root->father!=nullptr && this->root->father->father!=nullptr&&temp->hight==2 && tempname.compare(this->root->father->father->data)==0 )
         return "grandfather";
     
-     if(temp->hight==2 && (tempname.compare(this->root->father->mother->data)==0 ||tempname.compare(this->root->mother->mother->data)==0))
+    else if(this->root->mother!=nullptr && this->root->mother->father!=nullptr&&temp->hight==2 && tempname.compare(this->root->mother->father->data)==0 )
+        return "grandfather";
+    
+    else if(this->root->father!=nullptr && this->root->father->mother!=nullptr&&temp->hight==2 && tempname.compare(this->root->father->mother->data)==0 )
         return "grandmother";
     
+    else if(this->root->mother!=nullptr && this->root->mother->mother!=nullptr&&temp->hight==2 && tempname.compare(this->root->mother->mother->data)==0 )
+        return "grandmother";
+    
+    
+    else {
     string ans="";
     if(temp->hight>2)
     {
@@ -235,7 +262,12 @@ string Tree::relation(string name)
         if(temp->tag==0)
             ans+="grandfather";
     }
+    else {
+        throw runtime_error ("unrelated");
+    }
     return ans;
+    }
+    return "unrelated";
  }
  
 
@@ -266,9 +298,8 @@ void Tree :: display(node *n)
 
 void Tree::remove(string name)
 {
-    size_t found=name.find(" ");
-    if(found != string::npos)
-            throw out_of_range{"You entered incorrect names!"};
+    cout << "remove " << name << endl;
+    
     if(this->root->data==name)
                 throw runtime_error("cannot remove the root !");
 

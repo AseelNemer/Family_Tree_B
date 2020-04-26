@@ -196,7 +196,10 @@ TEST_CASE("Empty string Tree case") {
 	CHECK(T.relation("    ") == string("grandfather"));
 	CHECK(T.relation("     ") == string("grandmother"));
 
-    CHECK(T.relation("fli XX") == string("unrelated"));
+    
+	
+	
+	CHECK(T.relation("fli XX") == string("unrelated"));
 	CHECK(T.relation("leo") == string("unrelated"));
 	CHECK(T.relation("  osC7ar") == string("unrelated"));
 

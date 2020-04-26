@@ -22,9 +22,9 @@ public:
     node(string name)
   {
     this->data = name;
-    this->father = NULL;
-    this->mother = NULL;
-    this->son=NULL;
+    this->father = nullptr;
+    this->mother = nullptr;
+    this->son=nullptr;
     this->hight=0;
     this->tag=0;
  };
