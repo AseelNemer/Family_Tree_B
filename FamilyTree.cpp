@@ -109,11 +109,7 @@ void Tree::find_node(node *root, node** temp ,const string child) {
  string Tree::find(string name)
  {
          
-    /**size_t found=name.find(" ");
-    if(found != string::npos)
-            throw out_of_range{"You entered incorrect names!"};
-*/
-    int l =name.length(),i=0;
+
     if(this->root==nullptr)
         throw out_of_range{" the tree is empty"};
 
@@ -155,6 +151,10 @@ void Tree::find_node(node *root, node** temp ,const string child) {
 
     if(name.compare("grandfather")==0&&this->root->mother->father==nullptr && this->root->father->father==nullptr)
             throw runtime_error("cannot find the reletion");
+
+    size_t found=name.find("grandmother") ,found1=name.find("grandfather");
+    if(found != string::npos&&found1 != string::npos)
+            throw out_of_range{"You entered incorrect names!"};
 
     int level=0;
     string s = name;

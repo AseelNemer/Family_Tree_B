@@ -55,6 +55,7 @@ class Tree {
         this->root = new node(name);
         this->size=0;
         this->root->son=root;
+        this->root->hight=0;
     };
     ~Tree()
         {
